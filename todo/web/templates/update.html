@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card bg-black text-light border-secondary shadow mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+        <h2 class="mb-4">Update Task</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" value="{{ task.title }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4">{{ task.description }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Priority</label>
+                <select name="priority" class="form-select" required>
+                    <option value="High" {% if task.priority == "High" %}selected{% endif %}>High</option>
+                    <option value="Medium" {% if task.priority == "Medium" %}selected{% endif %}>Medium</option>
+                    <option value="Low" {% if task.priority == "Low" %}selected{% endif %}>Low</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Due Date</label>
+                <input type="date" name="duedate" class="form-control" value="{{ task.duedate|date:'Y-m-d' }}" required>
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" name="is_complete" class="form-check-input" id="is_complete"
+                       {% if task.is_complete %}checked{% endif %}>
+                <label class="form-check-label" for="is_complete">Completed</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Task</button>
+            <a href="{% url 'home' %}" class="btn btn-outline-light">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
